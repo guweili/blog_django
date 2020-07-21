@@ -11,3 +11,4 @@ class Article(models.Model):
 
     class Meta:
         db_table = 'article'
+        verbose_name = '文章'
