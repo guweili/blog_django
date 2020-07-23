@@ -21,7 +21,6 @@ class Blog(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.DO_NOTHING,
-        default=1,
         verbose_name='作者'
     )  # DO_NOTHING当用户删除时，对他所作的文章不做任何操作
     is_delete = models.BooleanField(default=False, verbose_name='是否删除')
