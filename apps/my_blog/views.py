@@ -3,6 +3,10 @@ from django.shortcuts import render_to_response, get_object_or_404
 from my_blog.models import Blog, BlogType
 
 
+def home(request):
+    return render_to_response('home.html', context={})
+
+
 def blog_list(request):
     blogs = Blog.objects.all()
     return render_to_response('blog/blog_list.html', context={'blogs': blogs})
