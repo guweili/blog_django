@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     我的网站
@@ -9,13 +10,77 @@
 {% endblock %}
 
 {% block content %}
-    {% for blog in blogs %}
-        <a href="{% url 'blog_detail' blog.id %}">
-            <h3>{{ blog.title }}</h3>
-        </a>
-        <p>{{ blog.content | truncatechars:50 }}</p>
-    {% empty %}
-        <p>---- 暂无博客内容 ----</p>
-    {% endfor %}
-    <p>{{ blogs | length }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% block blog_list_title %}
+                                列表共有 {{ blogs | length }} 文章
+                            {% endblock %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for blog in blogs %}
+                            <div style="margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid #eee">
+                                <a href="{% url 'blog_detail' blog.id %}">
+                                    <h3 style="margin-top: 0.5em;">{{ blog.title }}</h3>
+                                </a>
+                                <p class="blog-info">
+                                    <span class="glyphicon glyphicon-tag" aria-hidden="true">
+                                        <a href="{% url 'blogs_with_type'  blog.blog_type.id %}">{{ blog.blog_type }}</a>
+                                    </span>
+
+                                    <span class="glyphicon glyphicon-time" aria-hidden="true" style="left:20px;">
+                                        {{ blog.created_time }}
+                                    </span>
+
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="left:40px;">
+                                        {{ blog.read_num }}
+                                    </span>
+                                </p>
+                                <p>{{ blog.content | truncatechars:100 }}</p>
+
+                            </div>
+
+                        {% empty %}
+                            <div style="margin-top: 0.5em;">
+                                <h3 style="margin-top: 0.5em;">---- 暂无博客内容 ----</h3>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <p></p>
+
+            </div>
+            <div class="col-sm-2">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">博客分类</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul style="list-style-type: none;">
+                            {% for blog in blogs_type %}
+                                <li>
+                                    <a href="{% url 'blogs_with_type' blog.id %}">
+                                        {{ blog.type_name }}
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li>
+                                    ---- 暂无分类 ----
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}
+
 {% endblock %}
