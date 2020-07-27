@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 class BlogType(models.Model):
     type_name = models.CharField(max_length=30, verbose_name='类型')
 
+    def blog_count(self):
+        return self.blog_set.count()
+
     def __str__(self):
         return f'{self.type_name}'
 

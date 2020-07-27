@@ -20,7 +20,22 @@
                         {{ blog.blog_type }}
                     </a>
                 </p>
-                <p style="display: inline-block; margin-right: 2em; text-indent: 2em;">{{ blog.content }}</p>
+                <div style="display: inline-block; margin-right: 2em; text-indent: 2em;">{{ blog.content }}</div>
+
+                <div style="margin-top: 1em;">上一篇:
+                    {% if next_blog %}
+                        <a href="{% url 'blog_detail' next_blog.id %}"> {{ next_blog.title }}</a>
+                    {% else %}
+                        暂无博客
+                    {% endif %}
+                </div>
+                <div style="margin-top: 1em;">下一篇:
+                    {% if previous_blog %}
+                        <a href="{% url 'blog_detail' previous_blog.id %}"> {{ previous_blog.title }}</a>
+                    {% else %}
+                        暂无博客
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
