@@ -132,3 +132,6 @@ if not os.path.exists(LOGGING_DIR):
 #         },
 #     },
 # }
+
+'''########    分页参数    ########'''
+EACH_PAGE_BLOGS_NUMBER = 8

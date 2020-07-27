@@ -12,17 +12,17 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             {% block blog_list_title %}
-                                列表共有 {{ blogs | length }} 文章
+                                列表文章
                             {% endblock %}
                         </h3>
                     </div>
                     <div class="panel-body">
-                        {% for blog in blogs %}
+                        {% for blog in page_fo_blogs.object_list %}
                             <div style="margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid #eee">
                                 <a href="{% url 'blog_detail' blog.id %}">
                                     <h3 style="margin-top: 0.5em;">{{ blog.title }}</h3>
@@ -51,10 +51,45 @@
                         {% endfor %}
                     </div>
                 </div>
-                <p></p>
-
+                <div aria-label="..." style="text-align: center;">
+                    <ul class="pagination">
+                        <li>
+                            {# page_fo_blogs.has_previous判断是否有上一页 #}
+                            {% if page_fo_blogs.has_previous %}
+                                <a href="?page={{ page_fo_blogs.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&laquo;</span>
+                            {% endif %}
+                        </li>
+                        {% for page_num in page_range %}
+                            {% if page_num == page_fo_blogs.number %}
+                                <li class="active"><span>{{ page_num }}</span></li>
+                            {% elif page_num == '...' %}
+                                <li><span>{{ page_num }}</span></li>
+                            {% else %}
+                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li>
+                            {#has_next page_fo_blogs判断是否有下一页 #}
+                            {% if page_fo_blogs.has_next %}
+                                <a href="?page={{ page_fo_blogs.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&raquo;</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <p>
+                        共有 {{ page_fo_blogs.paginator.count }} 文章
+                    </p>
+                </div>
             </div>
-            <div class="col-sm-2">
+
+            <div class="col-sm-3">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                         <h3 class="panel-title">博客分类</h3>
@@ -63,9 +98,11 @@
                         <ul style="list-style-type: none;">
                             {% for blog in blogs_type %}
                                 <li>
-                                    <a href="{% url 'blogs_with_type' blog.id %}">
-                                        {{ blog.type_name }}
-                                    </a>
+                                    <h4>
+                                        <a href="{% url 'blogs_with_type' blog.id %}">
+                                            {{ blog.type_name }}
+                                        </a>
+                                    </h4>
                                 </li>
                             {% empty %}
                                 <li>

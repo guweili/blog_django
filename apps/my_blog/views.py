@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.paginator import Paginator  # 分页
 
 from my_blog.models import Blog, BlogType
+from utils.expand import paging
 
 
 def home(request):
@@ -9,9 +11,13 @@ def home(request):
 
 def blog_list(request):
     blogs = Blog.objects.all()
-    blogs_type = BlogType.objects.all()
+    page = request.GET.get('page', 1)
+    context = paging(blogs, page)
 
-    return render_to_response('blog/blog_list.html', context={'blogs': blogs, 'blogs_type': blogs_type})
+    return render_to_response(
+        'blog/blog_list.html',
+        context=context,
+    )
 
 
 def blog_detail(request, blog_id):
@@ -23,12 +29,11 @@ def blog_detail(request, blog_id):
 def blogs_with_type(request, blog_type_id):
     blog_type = get_object_or_404(BlogType, id=blog_type_id)
     blogs = Blog.objects.filter(blog_type=blog_type)
-    blogs_type = BlogType.objects.all()
+    page = request.GET.get('page', 1)
+    context = paging(blogs, page)
+    context['blog_type'] = blog_type
 
     return render_to_response(
         'blog/blog_with_type.html',
-        context={
-            'blogs': blogs,
-            'blogs_type': blogs_type,
-            'blog_type': blog_type},
+        context=context,
     )

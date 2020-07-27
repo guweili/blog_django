@@ -37,3 +37,4 @@ class Blog(models.Model):
     class Meta:
         db_table = 'blog'
         verbose_name_plural = '博客'
+        ordering = ['-created_time']
