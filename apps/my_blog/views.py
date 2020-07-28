@@ -21,6 +21,8 @@ def blog_list(request):
 
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
+    blog.read_num += 1
+    blog.save()
     previous_blog = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 下一篇博客
     next_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 上一篇博客
 

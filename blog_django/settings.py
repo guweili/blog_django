@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -19,6 +20,8 @@ MY_APPS = [
 ]
 
 EXPAND_APPS = [
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 DJANGO_APPS = [
@@ -113,25 +116,29 @@ LOGGING_DIR = os.path.join(BASE_DIR, "logs")
 if not os.path.exists(LOGGING_DIR):
     os.mkdir(LOGGING_DIR)
 
-# 日志配置
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'INFO',
-#             'class': 'logging.FileHandler',
-#             'filename': f'{LOGGING_DIR}/{datetime.now().strftime("%Y-%m-%d")}.log',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#     },
-# }
+if DEBUG != True:
+    # 日志配置
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'INFO',
+                'class': 'logging.FileHandler',
+                'filename': f'{LOGGING_DIR}/{datetime.datetime.now().strftime("%Y-%m-%d")}.log',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
+    }
+
+'''########    富文本配置    ########'''
+CKEDITOR_UPLOAD_PATH = 'upload/'
 
 '''########    分页参数    ########'''
 EACH_PAGE_BLOGS_NUMBER = 8

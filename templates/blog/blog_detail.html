@@ -13,13 +13,15 @@
         <div class="row">
             <div class="col-xs-10 col-xg-offset-1">
                 <h3>{{ blog.title }}</h3>
-                <p>作者：{{ blog.author }}</p>
-                <p>发表日期：{{ blog.created_time }}</p>
-                <p>分类：
+                <span style="margin-right: 2em;">作者：{{ blog.author }}</span>
+                <span style="margin-right: 2em;">发表日期：{{ blog.created_time }}</span>
+                <span style="margin-right: 2em;">阅读人数：{{ blog.read_num }}</span>
+                <span style="margin-right: 2em;">文章分类：
                     <a href="{% url 'blogs_with_type' blog.blog_type.id %}">
                         {{ blog.blog_type }}
                     </a>
-                </p>
+                </span>
+                <br>
                 <div style="display: inline-block; margin-right: 2em; text-indent: 2em;">{{ blog.content }}</div>
 
                 <div style="margin-top: 1em;">上一篇:

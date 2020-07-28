@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class BlogType(models.Model):
     type_name = models.CharField(max_length=30, verbose_name='类型')
 
     def blog_count(self):
+        '''
+        通过外键反向查询，计数统计
+        :return:
+        '''
         return self.blog_set.count()
 
     def __str__(self):
@@ -18,7 +23,7 @@ class BlogType(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length=30, verbose_name='标题')
-    content = models.TextField(verbose_name='内容')
+    content = RichTextUploadingField(verbose_name='内容')  # 富文本
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')  # auto_now_add 创建时自动添加时间，后台不能操作子字段
     update_time = models.DateTimeField(auto_now=True, verbose_name='最后更新时间')  # auto_now 每次数据有修改时，时间自动更新，后台不能操作子字段
     author = models.ForeignKey(
