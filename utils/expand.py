@@ -64,7 +64,7 @@ def get_week_data(content_type):
         date = today - datetime.timedelta(days=i)
         read_num = ReadNum.objects.filter(content_type=content_type, created_time__year=date.year,
                                           created_time__month=date.month, created_time__day=date.day).count()
-        dates.append(date.strftime("%Y-%m-%d"))
+        dates.append(date.strftime("%m-%d"))
         read_nums.append(read_num)
 
     data = {
