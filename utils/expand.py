@@ -3,11 +3,13 @@
 # @FileName  :expand.py
 # @Time      :2020/7/24 15:23
 # @Author    :wlgu
+from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.db.models import Count
 
 from blog_django.settings import EACH_PAGE_BLOGS_NUMBER
 from my_blog.models import BlogType, Blog
+from read_count.models import ReadNum
 
 
 def paging(blogs, request, size=EACH_PAGE_BLOGS_NUMBER):

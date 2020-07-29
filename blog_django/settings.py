@@ -17,6 +17,7 @@ ALLOWED_HOSTS = []
 
 MY_APPS = [
     'my_blog',
+    'read_count',
 ]
 
 EXPAND_APPS = [

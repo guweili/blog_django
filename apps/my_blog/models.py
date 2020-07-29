@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.contenttypes.models import ContentType
+from read_count.models import ReadNum, ReadNumExpand
 
 
 class BlogType(models.Model):
@@ -21,7 +23,7 @@ class BlogType(models.Model):
         verbose_name_plural = '博客类型'
 
 
-class Blog(models.Model):
+class Blog(models.Model, ReadNumExpand):
     title = models.CharField(max_length=30, verbose_name='标题')
     content = RichTextUploadingField(verbose_name='内容')  # 富文本
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')  # auto_now_add 创建时自动添加时间，后台不能操作子字段
@@ -32,7 +34,6 @@ class Blog(models.Model):
         verbose_name='作者'
     )  # DO_NOTHING当用户删除时，对他所作的文章不做任何操作
     is_delete = models.BooleanField(default=False, verbose_name='是否删除')
-    read_num = models.IntegerField(default=0, verbose_name='阅读数')
     blog_type = models.ForeignKey(
         BlogType,
         on_delete=models.DO_NOTHING,

@@ -1,6 +1,4 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.core.paginator import Paginator  # 分页
-
 from my_blog.models import Blog, BlogType
 from utils.expand import paging
 
@@ -21,8 +19,10 @@ def blog_list(request):
 
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-    blog.read_num += 1
-    blog.save()
+
+    # 添加一条阅读记录
+    blog.create_read_record()
+
     previous_blog = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 下一篇博客
     next_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 上一篇博客
 

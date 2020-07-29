@@ -15,7 +15,7 @@
                 <h3>{{ blog.title }}</h3>
                 <span style="margin-right: 2em;">作者：{{ blog.author }}</span>
                 <span style="margin-right: 2em;">发表日期：{{ blog.created_time }}</span>
-                <span style="margin-right: 2em;">阅读人数：{{ blog.read_num }}</span>
+                <span style="margin-right: 2em;">阅读人数：{{ blog.read_count }}</span>
                 <span style="margin-right: 2em;">文章分类：
                     <a href="{% url 'blogs_with_type' blog.blog_type.id %}">
                         {{ blog.blog_type }}
