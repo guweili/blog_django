@@ -45,8 +45,17 @@
 </body>
 <link rel="stylesheet" href="{% static  'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static  'css/base.css' %}">
+{% block css %}
 
+{% endblock %}
+
+
+<script type="text/javascript" src="{% static 'highcharts.js' %}"></script>
 <script type="text/javascript" src="{% static 'jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+{% block js %}
+
+{% endblock %}
+
 
 </html>

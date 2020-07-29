@@ -3,9 +3,11 @@
 # @FileName  :expand.py
 # @Time      :2020/7/24 15:23
 # @Author    :wlgu
-from django.contrib.contenttypes.models import ContentType
+import datetime
+
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, Sum
+from django.utils import timezone
 
 from blog_django.settings import EACH_PAGE_BLOGS_NUMBER
 from my_blog.models import BlogType, Blog
@@ -52,3 +54,22 @@ def paging(blogs, request, size=EACH_PAGE_BLOGS_NUMBER):
     }
 
     return context
+
+
+def get_week_data(content_type):
+    today = timezone.now().date()
+    dates = []
+    read_nums = []
+    for i in range(7, 0, -1):
+        date = today - datetime.timedelta(days=i)
+        read_num = ReadNum.objects.filter(content_type=content_type, created_time__year=date.year,
+                                          created_time__month=date.month, created_time__day=date.day).count()
+        dates.append(date.strftime("%Y-%m-%d"))
+        read_nums.append(read_num)
+
+    data = {
+        'dates': dates,
+        'read_nums': read_nums,
+    }
+
+    return data

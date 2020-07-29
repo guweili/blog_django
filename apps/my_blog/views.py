@@ -1,10 +1,20 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.contenttypes.models import ContentType
+
 from my_blog.models import Blog, BlogType
-from utils.expand import paging
+from utils.expand import paging, get_week_data
 
 
 def home(request):
-    return render_to_response('home.html', context={})
+    ct = ContentType.objects.get_for_model(Blog)
+    data = get_week_data(ct)
+
+    return render_to_response(
+        'home.html',
+        context={
+            'data': data
+        },
+    )
 
 
 def blog_list(request):

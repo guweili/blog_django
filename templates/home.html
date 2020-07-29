@@ -11,6 +11,42 @@
 
 {% block content %}
 
-    <h3 class="home-content">欢迎访问我的网站</h3>
+    <h3 style="font-size: 220%; text-align: center; margin-top: 4em; margin-bottom: 2em;">欢迎访问我的网站</h3>
+    <div id="container" style="width: 600px;height:400px;margin: 0 auto;"></div>
+    {{ read_nums }}
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        // 图表配置
+        var options = {
+            chart: {type: 'line'},
+            title: {text: '七日访问量折线图'},
+            xAxis: {
+                title: {text: '日期'},
+                categories: {{ data.dates|safe }},
+                tickmarkPlacement: 'on',
+            },
+            yAxis: {
+                title: {text: '阅读数'},
+                labels: {enabled: false},
+                gridLineDashStyle: 'Dash',
+            },
+            series: [{
+                name: '当天阅读数',
+                data: {{ data.read_nums }}
+            }],
+            credits: {enabled: false},
+            legend: {enabled: false},
+            plotOptions: {
+                series: {
+                    allowPointSelect: true
+                }
+            },
+        };
+        // 图表初始化函数
+        var chart = Highcharts.chart('container', options);
+    </script>
 
 {% endblock %}
