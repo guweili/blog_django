@@ -151,3 +151,4 @@ CACHES = {
         'LOCATION': 'home_cache',
     }
 }
+CACHES_EXPIRATION_TIM = 60 * 60 * 24
