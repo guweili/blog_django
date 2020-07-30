@@ -95,6 +95,10 @@ def get_date_pageview(start, end):
 
 
 def cache_data(key, start, end=None):
+    if key == "hot_data":
+        content = get_date_pageview(start, end)
+        return content
+
     content = cache.get(key)
     if not content:
         content = get_date_pageview(start, end)
