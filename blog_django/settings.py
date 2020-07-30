@@ -143,3 +143,11 @@ CKEDITOR_UPLOAD_PATH = 'upload/'
 
 '''########    分页参数    ########'''
 EACH_PAGE_BLOGS_NUMBER = 8
+
+'''########    首页缓存    ########'''
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'home_cache',
+    }
+}

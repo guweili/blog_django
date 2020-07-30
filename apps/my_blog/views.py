@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
 from my_blog.models import Blog, BlogType
-from utils.expand import paging, get_week_data, get_date_pageview
+from utils.expand import paging, get_week_data, get_date_pageview, cache_data
 
 
 def home(request):
@@ -22,9 +22,9 @@ def home(request):
         'home.html',
         context={
             'data': data,
-            'hot_data': get_date_pageview(today),
-            'yesterday_data': get_date_pageview(yesterday),
-            'sever_day_data': get_date_pageview(today, sever_day),
+            'hot_data': cache_data('hot_data', today),
+            'yesterday_data': cache_data('yesterday_data', yesterday),
+            'sever_day_data': cache_data('sever_day_data', today, sever_day),
         },
     )
 

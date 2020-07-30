@@ -5,6 +5,7 @@
 # @Author    :wlgu
 import datetime
 
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.utils import timezone
@@ -75,7 +76,7 @@ def get_week_data(content_type):
     return data
 
 
-def get_date_pageview(start, end=None):
+def get_date_pageview(start, end):
     if end:
         read_num = Blog.objects.filter(
             read_nums__created_time__lt=start,
@@ -88,3 +89,12 @@ def get_date_pageview(start, end=None):
         ).values('title', 'id').annotate(dcount=Count('id')).order_by('-dcount')
 
     return read_num[:7]
+
+
+def cache_data(key, start, end=None):
+    content = cache.get(key)
+    if not content:
+        content = get_date_pageview(start, end)
+        cache.set(key, content, 60 * 60 * 24)
+
+    return content
