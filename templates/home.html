@@ -13,42 +13,59 @@
 
     <h3 style="font-size: 220%; text-align: center; margin-top: 4em; margin-bottom: 2em;">欢迎访问我的网站</h3>
     <div id="container" style="width: 600px;height:400px;margin: 0 auto;"></div>
-    <h3>今日热门博客</h3>
-    <ul>
-        {% for hot in hot_data %}
-            <li>
-                <a href="{% url 'blog_detail' hot.id %}">
-                    {{ hot.title }} ({{ hot.dcount }})
-                </a>
-            </li>
-        {% empty %}
-            <li>今天无热门博客</li>
-        {% endfor %}
-    </ul>
-    <h3>昨日热门博客</h3>
-    <ul>
-        {% for yesterday in yesterday_data %}
-            <li>
-                <a href="{% url 'blog_detail' yesterday.id %}">
-                    {{ yesterday.title }} ({{ yesterday.dcount }})
-                </a>
-            </li>
-        {% empty %}
-            <li>昨日无热门博客</li>
-        {% endfor %}
-    </ul>
-    <h3>前七日热门博客</h3>
-    <ul>
-        {% for sever_day in sever_day_data %}
-            <li>
-                <a href="{% url 'blog_detail' sever_day.id %}">
-                    {{ sever_day.title }} ({{ sever_day.dcount }})
-                </a>
-            </li>
-        {% empty %}
-            <li>前七日无热门博客</li>
-        {% endfor %}
-    </ul>
+    <div class="hot-data">
+        <h3>今日热门博客</h3>
+        <ul>
+            {% for hot in hot_data %}
+                <li>
+                    <a href="{% url 'blog_detail' hot.id %}">
+                        {{ hot.title }} ({{ hot.dcount }})
+                    </a>
+                </li>
+            {% empty %}
+                <li>今天无热门博客</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="hot-data">
+        <h3>昨日热门博客</h3>
+        <ul>
+            {% for yesterday in yesterday_data %}
+                <li>
+                    <a href="{% url 'blog_detail' yesterday.id %}">
+                        {{ yesterday.title }} ({{ yesterday.dcount }})
+                    </a>
+                </li>
+            {% empty %}
+                <li>昨日无热门博客</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="hot-data">
+        <h3>前七日热门博客</h3>
+        <ul>
+            {% for sever_day in sever_day_data %}
+                <li>
+                    <a href="{% url 'blog_detail' sever_day.id %}">
+                        {{ sever_day.title }} ({{ sever_day.dcount }})
+                    </a>
+                </li>
+            {% empty %}
+                <li>前七日无热门博客</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+{% endblock %}
+
+{% block css %}
+    <style>
+        .hot-data {
+            text-align: center;
+            margin-top: 2em;
+        }
+    </style>
 {% endblock %}
 
 
@@ -83,5 +100,7 @@
         // 图表初始化函数
         var chart = Highcharts.chart('container', options);
     </script>
+
+
 
 {% endblock %}
