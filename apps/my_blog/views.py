@@ -1,18 +1,30 @@
+import datetime
+
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 from my_blog.models import Blog, BlogType
-from utils.expand import paging, get_week_data
+from utils.expand import paging, get_week_data, get_date_pageview
 
 
 def home(request):
     ct = ContentType.objects.get_for_model(Blog)
     data = get_week_data(ct)
 
+    today = timezone.now().date()
+
+    yesterday = timezone.now().date() - datetime.timedelta(days=1)
+
+    sever_day = timezone.now().date() - datetime.timedelta(days=7)
+
     return render_to_response(
         'home.html',
         context={
-            'data': data
+            'data': data,
+            'hot_data': get_date_pageview(today),
+            'yesterday_data': get_date_pageview(yesterday),
+            'sever_day_data': get_date_pageview(today, sever_day),
         },
     )
 

@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -39,6 +40,7 @@ class Blog(models.Model, ReadNumExpand):
         on_delete=models.DO_NOTHING,
         verbose_name='文章类型'
     )
+    read_nums = GenericRelation(ReadNum)
 
     def __str__(self):
         return f'{self.title}'

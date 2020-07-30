@@ -6,7 +6,7 @@
 import datetime
 
 from django.core.paginator import Paginator
-from django.db.models import Count, Sum
+from django.db.models import Count
 from django.utils import timezone
 
 from blog_django.settings import EACH_PAGE_BLOGS_NUMBER
@@ -73,3 +73,18 @@ def get_week_data(content_type):
     }
 
     return data
+
+
+def get_date_pageview(start, end=None):
+    if end:
+        read_num = Blog.objects.filter(
+            read_nums__created_time__lt=start,
+            read_nums__created_time__gte=end,
+        ).values('title', 'id').annotate(dcount=Count('id')).order_by('-dcount')
+    else:
+
+        read_num = Blog.objects.filter(
+            read_nums__created_time__date=start,
+        ).values('title', 'id').annotate(dcount=Count('id')).order_by('-dcount')
+
+    return read_num[:7]

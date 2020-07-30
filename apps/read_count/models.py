@@ -31,3 +31,4 @@ class ReadNum(models.Model):
     class Meta:
         db_table = 'read_num'
         verbose_name_plural = '阅读记录'
+        ordering = ['-created_time']
