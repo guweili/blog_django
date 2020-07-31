@@ -1,12 +1,14 @@
 import datetime
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils import timezone
 
 from comment.models import Comment
+from my_blog.froms import LoginFrom, RegisterFrom
 from my_blog.models import Blog, BlogType
 from utils.expand import paging, get_week_data, cache_data
 
@@ -93,13 +95,51 @@ def blog_date(request, year, month):
 
 
 def my_login(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = authenticate(request, username=username, password=password)
-    referer = request.META.get('HTTP_REFERER', reverse('login'))
-    if user is not None:
-        login(request, user)  # 后台记录用户登陆状态
-        return redirect(referer)
+    if request.method == 'POST':
+        login_from = LoginFrom(request.POST)
+        if login_from.is_valid():
+            user = login_from.cleaned_data['user']
+            login(request, user)  # 后台记录用户登陆状态
+            return redirect(request.GET.get('from', reverse('home')))  # 跳回到当前博客
     else:
-        # Return an 'invalid login' error message.
-        pass
+
+        login_from = LoginFrom()
+
+    context = {}
+    context['login_from'] = login_from
+
+    return render(
+        request,
+        'login.html',
+        context=context
+    )
+
+
+def register(request):
+    if request.method == 'POST':
+        reg_from = RegisterFrom(request.POST)
+
+        if reg_from.is_valid():
+            username = reg_from.cleaned_data['username']
+            email = reg_from.cleaned_data['email']
+            password = reg_from.cleaned_data['password']
+            # 创建用户
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save()
+            # 后台记录用户登陆状态
+            user = authenticate(username=username, password=password)
+            login(request, user)
+
+            return redirect(request.GET.get('from', reverse('home')))  # 跳回到当前博客
+    else:
+
+        reg_from = RegisterFrom()
+
+    context = {}
+    context['reg_from'] = reg_from
+
+    return render(
+        request,
+        'register.html',
+        context=context
+    )
