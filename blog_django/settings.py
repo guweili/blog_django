@@ -141,6 +141,23 @@ if DEBUG != True:
 
 '''########    富文本配置    ########'''
 CKEDITOR_UPLOAD_PATH = 'upload/'
+CKEDITOR_CONFIG = {
+    'comment_ckeditor': {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            ['Blod', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['TextColor', 'BGColor', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['Smiley', 'SpecialChar', 'Blockquote'],
+        ],
+        'width': 'auto',
+        'height': '180',
+        'tabSpace': 4,
+        'removePlugins': 'elementspath',
+        'resize_enable': False,
+    }
+}
 
 '''########    分页参数    ########'''
 EACH_PAGE_BLOGS_NUMBER = 8

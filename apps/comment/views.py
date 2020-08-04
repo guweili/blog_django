@@ -1,26 +1,21 @@
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from django.urls import reverse
 
 from comment.models import Comment
+from comment.forms import CommentFrom
 
 
 def submit_comment(request):
-    user = request.user
-    text = request.POST.get('text', '')
-
-    content_type = request.POST.get('content_type', '')
-    obj_id = request.POST.get('obj_id', '')
-    model_class = ContentType.objects.get(model=content_type).model_class()
-    model_obj = model_class.objects.get(pk=int(obj_id))
-
-    comment = Comment()
-    comment.text = text
-    comment.user = user
-    comment.content_object = model_obj
-    comment.object_id = obj_id
-    comment.save()
-
     referer = request.META.get('HTTP_REFERER', reverse('home'))
-    return redirect(referer)
+    comment_form = CommentFrom(request.POST, user=request.user)
+    if comment_form.is_valid():
+        comment = Comment()
+        comment.text = comment_form.cleaned_data['text']
+        comment.user = comment_form.cleaned_data['user']
+        comment.content_object = comment_form.cleaned_data['model_obj']
+        comment.object_id = comment_form.cleaned_data['object_id']
+        comment.save()
+
+        return redirect(referer)

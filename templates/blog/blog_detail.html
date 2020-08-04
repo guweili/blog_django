@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}
     {{ blog.title }}
@@ -48,16 +49,15 @@
                             {% if user.is_authenticated %}
                                 <form action="{% url 'comment' %}" method="post" style="overflow: hidden;">
                                     {% csrf_token %}
-                                    <div class="form-group">
-                                        <lable for="comment_text">{{ user }} : 已登陆</lable>
-                                        <textarea id="comment_text" class="form-control" name="text" cols="30"
-                                                  rows="10">
-                                        </textarea>
-                                    </div>
+                                    <lable>{{ user.username }}</lable>
+                                    ，欢迎评论 ~
 
-                                    <input type="hidden" name="obj_id" value="{{ blog.id }}">
-                                    <input type="hidden" name="content_type" value="blog">
-                                    <input class="btn btn-primary" type="submit" value="提交评论" style="float: right">
+                                    {% for field in comment_from %}
+                                        {{ field }}
+                                    {% endfor %}
+
+                                    <input class="btn btn-primary" type="submit" value="提交评论"
+                                           style="float: right; margin-top: 1em;">
                                 </form>
                             {% else %}
                                 你尚未登陆，请登陆后平论 ~
@@ -74,7 +74,7 @@
                             {% for comment in comments %}
                                 <div>
                                     {{ comment.user.username }}
-                                    ({{ comment.created_time }})
+                                    ({{ comment.created_time }}) ：
                                     {{ comment.text }}
                                 </div>
                             {% empty %}
@@ -100,5 +100,14 @@
             padding-bottom: 0.4em;
         }
 
+        div.django-ckeditor-widget {
+            width: 100%;
+        }
+
     </style>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}

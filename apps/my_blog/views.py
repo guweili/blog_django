@@ -66,7 +66,7 @@ def blog_detail(request, blog_id):
             'previous_blog': previous_blog,
             'next_blog': next_blog,
             'comments': comments,
-            'comment_from': comments,
+            'comment_from': CommentFrom(initial={'content_type': blog_content_type.model, 'object_id': blog_id}),
         }
     )
 
