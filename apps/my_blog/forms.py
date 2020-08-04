@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @FileName  :froms.py
+# @FileName  :forms.py
 # @Time      :2020/7/31 17:17
 # @Author    :wlgu
 

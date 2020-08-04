@@ -8,9 +8,10 @@ from django.urls import reverse
 from django.utils import timezone
 
 from comment.models import Comment
-from my_blog.froms import LoginFrom, RegisterFrom
+from my_blog.forms import LoginFrom, RegisterFrom
 from my_blog.models import Blog, BlogType
 from utils.expand import paging, get_week_data, cache_data
+from comment.forms import CommentFrom
 
 
 def home(request):
@@ -65,6 +66,7 @@ def blog_detail(request, blog_id):
             'previous_blog': previous_blog,
             'next_blog': next_blog,
             'comments': comments,
+            'comment_from': comments,
         }
     )
 
