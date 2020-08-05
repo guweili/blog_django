@@ -50,23 +50,23 @@ def blog_list(request):
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
     blog_content_type = ContentType.objects.get_for_model(blog)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.id)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.id, parent=None)
     # 添加一条阅读记录
     blog.create_read_record()
 
-    previous_blog = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 下一篇博客
-    next_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 上一篇博客
+    previous_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 上一篇博客
+    next_blog = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 下一篇博客
 
     return render(
         request,
         'blog/blog_detail.html',
         context={
             'blog': blog,
-            'user': request.user,
             'previous_blog': previous_blog,
             'next_blog': next_blog,
-            'comments': comments,
-            'comment_from': CommentFrom(initial={'content_type': blog_content_type.model, 'object_id': blog_id}),
+            'comments': comments.order_by('-created_time'),
+            'comment_from': CommentFrom(
+                initial={'content_type': blog_content_type.model, 'object_id': blog_id, 'reply_comment_id': 0}),
         }
     )
 

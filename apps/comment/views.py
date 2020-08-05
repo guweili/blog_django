@@ -1,21 +1,36 @@
-from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect, render
-
-from django.urls import reverse
+from django.http import JsonResponse
 
 from comment.models import Comment
 from comment.forms import CommentFrom
 
 
 def submit_comment(request):
-    referer = request.META.get('HTTP_REFERER', reverse('home'))
     comment_form = CommentFrom(request.POST, user=request.user)
+    data = {}
     if comment_form.is_valid():
         comment = Comment()
         comment.text = comment_form.cleaned_data['text']
         comment.user = comment_form.cleaned_data['user']
-        comment.content_object = comment_form.cleaned_data['model_obj']
+        comment.content_object = comment_form.cleaned_data['content_obj']
         comment.object_id = comment_form.cleaned_data['object_id']
+
+        parent = comment_form.cleaned_data['parent']
+        if parent:
+            comment.parent = parent
+            comment.root = parent.root if parent.root else parent
+            comment.reply_to = parent.user
         comment.save()
 
-        return redirect(referer)
+        data['status'] = 'SUCCESS'
+        data['username'] = comment.user.username
+        data['text'] = comment.text
+        data['created_time'] = comment.created_time.strftime('%Y-%m-%d %H:%M:%S')
+        data['reply_to'] = comment.reply_to.username if parent else ''
+
+        data['id'] = comment.id
+        data['root_id'] = comment.root.id if comment.root else None
+    else:
+        data['status'] = 'ERROR'
+        data['message'] = '评论内容不能为空'
+
+    return JsonResponse(data)
