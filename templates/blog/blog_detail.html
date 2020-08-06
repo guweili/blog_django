@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load comment_tags %}  {# 引用模板标签 #}
+{% load read_tags %}  {# 引用模板标签 #}
 
 {% block title %}
     {{ blog.title }}
@@ -22,7 +23,7 @@
                     </a>
                 </span>
                 <span style="margin-right: 2em;">发表日期：{{ blog.created_time }}</span>
-                <span style="margin-right: 2em;">阅读人数：{{ blog.read_count }}</span>
+                <span style="margin-right: 2em;">阅读人数：{% get_read_count blog %}</span>
                 <span style="margin-right: 2em;">评论数：{% get_comment_count blog %}</span>
 
                 <br>
@@ -57,10 +58,12 @@
                         <form id="comment_form" action="{% url 'comment' %}" method="post" style="overflow:hidden;">
                             <lable>{{ user.username }}，欢迎评论 ~</lable>
                             <div id="reply_content_container" style="display: none;">
-                                <p>回复：</p>
+                                <p id="reply_title">回复：</p>
                                 <div id="reply_content"></div>
                             </div>
                             {% csrf_token %}
+
+                            {% get_comment_form blog as comment_from %}
 
                             {% for field in comment_from %}
                                 {{ field }}
@@ -83,6 +86,7 @@
                         评论列表
                     </h3>
                     <div id="comment_list">
+                        {% get_comment_list blog as comments %}
                         {% for comment in comments %}
                             <div id="root_{{ comment.id }}" class="comment">
                                 <span>{{ comment.user.username }}</span>
@@ -127,7 +131,11 @@
             padding-bottom: 0.4em;
         }
 
-        div.django-ckeditor-widget {
+        .django-ckeditor-widget {
+            width: 100%;
+        }
+
+        .cke_inner.cke_reset {
             width: 100%;
         }
 
@@ -139,6 +147,19 @@
 
         .reply {
             margin-left: 2em;
+        }
+
+        #reply_content_container {
+            border: 1px solid #d1d1d1;
+            border-bottom: none;
+            background-color: #f8f8f8;
+            overflow: hidden;
+            padding: 1em 1em 0.5em;
+        }
+
+        #reply_title {
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 0.5em;
         }
     </style>
 {% endblock %}
@@ -178,6 +199,7 @@
                         $('#reply_content_container').hide();
                         $('#reply_comment_id').val('0');
                         $('#no_comment').remove();
+                        $('#comment_error').text('评论成功');
                     } else {
                         $('#comment_error').text(data["message"]);
                     }

@@ -142,7 +142,9 @@ if DEBUG != True:
 '''########    富文本配置    ########'''
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_CONFIG = {
+    'default': '',
     'comment_ckeditor': {
+
         'toolbar': 'custom',
         'toolbar_custom': [
             ['Blod', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
@@ -151,8 +153,11 @@ CKEDITOR_CONFIG = {
             ['Link', 'Unlink'],
             ['Smiley', 'SpecialChar', 'Blockquote'],
         ],
-        'width': 'auto',
-        'height': '180',
+        # 使用简体中文
+        'language': 'zh-cn',
+        # 编辑器的宽高请根据你的页面自行设置
+        'width': '730px',
+        'height': '150px',
         'tabSpace': 4,
         'removePlugins': 'elementspath',
         'resize_enable': False,

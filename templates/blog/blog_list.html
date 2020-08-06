@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load read_tags %}
 
 {% block title %}
     我的网站
@@ -37,7 +38,7 @@
                                     </span>
 
                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="left:40px;">
-                                        {{ blog.read_count }}
+                                        {% get_read_count blog %}
                                     </span>
                                 </p>
                                 <p>{{ blog.content | truncatechars:100 }}</p>

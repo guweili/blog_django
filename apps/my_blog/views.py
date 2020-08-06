@@ -7,11 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils import timezone
 
-from comment.models import Comment
 from my_blog.forms import LoginFrom, RegisterFrom
 from my_blog.models import Blog, BlogType
 from utils.expand import paging, get_week_data, cache_data
-from comment.forms import CommentFrom
 
 
 def home(request):
@@ -49,8 +47,6 @@ def blog_list(request):
 
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-    blog_content_type = ContentType.objects.get_for_model(blog)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.id, parent=None)
     # 添加一条阅读记录
     blog.create_read_record()
 
@@ -64,9 +60,6 @@ def blog_detail(request, blog_id):
             'blog': blog,
             'previous_blog': previous_blog,
             'next_blog': next_blog,
-            'comments': comments.order_by('-created_time'),
-            'comment_from': CommentFrom(
-                initial={'content_type': blog_content_type.model, 'object_id': blog_id, 'reply_comment_id': 0}),
         }
     )
 
