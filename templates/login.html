@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
 
 {% block title %}
     我的网站|登陆
 {% endblock %}
 
-{% block nav_home_active %}
+{% block nav_login_active %}
     active
 {% endblock %}
 
@@ -19,7 +18,7 @@
                         <h3 class="panel-title">登 陆</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="{% url 'login' %}" method="post">
+                        <form action="#" method="post">
                             {% csrf_token %}
                             {% for filed in login_from %}
                                 <lable for="{{ filed.id_for_label }}">{{ filed.label }}</lable>
@@ -35,5 +34,14 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block css %}
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
 
 {% endblock %}

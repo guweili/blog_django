@@ -6,4 +6,5 @@ urlpatterns = [
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     re_path(r'^', include('my_blog.urls')),
     re_path(r'^', include('comment.urls')),
+    re_path(r'^', include('user.urls')),
 ]

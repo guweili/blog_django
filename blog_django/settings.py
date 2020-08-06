@@ -19,6 +19,7 @@ MY_APPS = [
     'my_blog',
     'read_count',
     'comment',
+    'user',
 ]
 
 EXPAND_APPS = [
@@ -61,6 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user.context_processors.login_model_form',
             ],
         },
     },
@@ -144,7 +146,6 @@ CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_CONFIG = {
     'default': '',
     'comment_ckeditor': {
-
         'toolbar': 'custom',
         'toolbar_custom': [
             ['Blod', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
@@ -153,11 +154,8 @@ CKEDITOR_CONFIG = {
             ['Link', 'Unlink'],
             ['Smiley', 'SpecialChar', 'Blockquote'],
         ],
-        # 使用简体中文
-        'language': 'zh-cn',
-        # 编辑器的宽高请根据你的页面自行设置
-        'width': '730px',
-        'height': '150px',
+        'width': 'auto',
+        'height': '180',
         'tabSpace': 4,
         'removePlugins': 'elementspath',
         'resize_enable': False,
