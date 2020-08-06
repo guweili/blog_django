@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load comment_tags %}  {# 引用模板标签 #}
 
 {% block title %}
     {{ blog.title }}
@@ -15,13 +16,16 @@
             <div class="col-xs-10 col-xg-offset-1">
                 <h3>{{ blog.title }}</h3>
                 <span style="margin-right: 2em;">作者：{{ blog.author }}</span>
-                <span style="margin-right: 2em;">发表日期：{{ blog.created_time }}</span>
-                <span style="margin-right: 2em;">阅读人数：{{ blog.read_count }}</span>
                 <span style="margin-right: 2em;">文章分类：
                     <a href="{% url 'blogs_with_type' blog.blog_type.id %}">
                         {{ blog.blog_type }}
                     </a>
                 </span>
+                <span style="margin-right: 2em;">发表日期：{{ blog.created_time }}</span>
+                <span style="margin-right: 2em;">阅读人数：{{ blog.read_count }}</span>
+                <span style="margin-right: 2em;">评论数：{% get_comment_count blog %}</span>
+
+                <br>
                 <br>
                 <div style="display: inline-block; margin-right: 2em; text-indent: 2em;">{{ blog.content }}</div>
 
