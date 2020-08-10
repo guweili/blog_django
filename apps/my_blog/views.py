@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
-from my_blog.forms import LoginFrom, RegisterFrom
 from my_blog.models import Blog, BlogType
 from utils.expand import paging, get_week_data, cache_data
 
@@ -37,7 +36,7 @@ def blog_list(request):
 
     return render(
         request,
-        'blog/blog_list.html',
+        'blog_list.html',
         context=context,
     )
 
@@ -52,7 +51,7 @@ def blog_detail(request, blog_id):
 
     return render(
         request,
-        'blog/blog_detail.html',
+        'blog_detail.html',
         context={
             'blog': blog,
             'previous_blog': previous_blog,
@@ -69,7 +68,7 @@ def blogs_with_type(request, blog_type_id):
 
     return render(
         request,
-        'blog/blog_with_type.html',
+        'blog_with_type.html',
         context=context,
     )
 
@@ -81,6 +80,6 @@ def blog_date(request, year, month):
 
     return render(
         request,
-        'blog/blog_date.html',
+        'blog_date.html',
         context=context,
     )

@@ -1,10 +1,11 @@
 from django.contrib import auth
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from my_blog.forms import LoginFrom, RegisterFrom
+from user.forms import LoginFrom, RegisterFrom
+
+User = get_user_model()
 
 
 def my_login(request):

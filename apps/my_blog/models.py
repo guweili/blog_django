@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.contenttypes.models import ContentType
+
+from blog_django import settings
 from read_count.models import ReadNum, ReadNumExpand
 
 
@@ -30,7 +32,7 @@ class Blog(models.Model, ReadNumExpand):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')  # auto_now_add 创建时自动添加时间，后台不能操作子字段
     update_time = models.DateTimeField(auto_now=True, verbose_name='最后更新时间')  # auto_now 每次数据有修改时，时间自动更新，后台不能操作子字段
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
         verbose_name='作者'
     )  # DO_NOTHING当用户删除时，对他所作的文章不做任何操作

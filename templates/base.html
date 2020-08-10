@@ -45,6 +45,11 @@
                             <li>
                                 <a href="{% url 'user_info' %}">修改资料</a>
                             </li>
+                            {% if user.is_superuser %}
+                                <li>
+                                    <a href="{% url 'admin:index' %}">后台管理</a>
+                                </li>
+                            {% endif %}
                             <li>
                                 <a href="{% url 'logout' %}?from={{ request.get_full_path }}">退出</a>
                             </li>

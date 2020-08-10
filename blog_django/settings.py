@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 SECRET_KEY = 'fmh+pteoto$zu@j%d6snk_olx48wr#=+x@+5bw+95r$s1+@m^f'
 
+AUTH_USER_MODEL = 'user.User'
 ALLOWED_HOSTS = []
 
 MY_APPS = [

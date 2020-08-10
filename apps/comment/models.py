@@ -1,12 +1,13 @@
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+from blog_django import settings
+
 
 class Comment(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         related_name='comments',
         on_delete=models.DO_NOTHING,
         verbose_name='用户',
@@ -23,7 +24,7 @@ class Comment(models.Model):
     parent = models.ForeignKey('self', null=True, related_name='parent_comment', on_delete=models.DO_NOTHING,
                                verbose_name='提问id')  # 关联上级评论回复
     reply_to = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         related_name='replies',
         null=True,
         on_delete=models.DO_NOTHING,
