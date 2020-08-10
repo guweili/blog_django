@@ -58,7 +58,7 @@
                         <form id="comment_form" action="{% url 'comment' %}" method="post" style="overflow:hidden;">
                             <lable>{{ user.username }}，欢迎评论 ~</lable>
                             <div id="reply_content_container" style="display: none;">
-                                <p id="reply_title">回复：</p>
+                                <p id="reply_title"></p>
                                 <div id="reply_content"></div>
                             </div>
                             {% csrf_token %}
@@ -94,7 +94,7 @@
                                 <div id="comment_{{ comment.id }}">
                                     {{ comment.text|safe }}
                                 </div>
-                                <a href="javascript:reply({{ comment.id }})">回复</a>
+                                <a href="javascript:reply('{{ comment.id }}', '{{ comment.user.username }}')">回复</a>
 
                                 {% for reply in comment.root_comment.all %}
                                     <div class="reply">
@@ -105,7 +105,7 @@
                                         <div id="comment_{{ reply.id }}">
                                             {{ reply.text|safe }}
                                         </div>
-                                        <a href="javascript:reply({{ reply.id }})">回复</a>
+                                        <a href="javascript:reply('{{ reply.id }}', '{{ reply.user.username }}')">回复</a>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -216,10 +216,11 @@
             return false;
         });
 
-        function reply(reply_comment_id) {
+        function reply(reply_comment_id, username) {
             $('#reply_comment_id').val(reply_comment_id);
             var html = $('#comment_' + reply_comment_id).html();
             $('#reply_content').html(html);
+            $('#reply_title').text('回复 @' + username + ':');
             $('#reply_content_container').show();
 
 
