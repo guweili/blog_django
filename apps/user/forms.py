@@ -86,5 +86,68 @@ class RegisterFrom(forms.Form):
         return password_again
 
 
-class UpdateUserInfo(forms.Form):
-    pass
+class ChangeNicknameForm(forms.Form):
+    nickname = forms.CharField(
+        label='昵称',
+        min_length=3,
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入昵称3-15位'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user', None)
+        super(ChangeNicknameForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if self.user.is_authenticated:
+            self.cleaned_data['user'] = self.user
+        else:
+            raise forms.ValidationError('用户尚未登陆')
+
+    def clean_nickname(self):
+        nickname = self.cleaned_data.get('nickname', '').strip()
+        if nickname == '':
+            raise forms.ValidationError('名称不能为空')
+
+        return nickname
+
+
+class BindEmailForm(forms.Form):
+    email = forms.EmailField(
+        label='邮箱',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入邮箱'})
+    )
+
+    code = forms.CharField(
+        label='验证码',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入验证码'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user', None)
+
+        if 'request' in kwargs:
+            self.request = kwargs.pop('request', None)
+        super(BindEmailForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if self.user.is_authenticated:
+            self.cleaned_data['user'] = self.user
+        else:
+            raise forms.ValidationError('用户尚未登陆')
+
+        session_code = self.request.session.get('email_code', '')
+        send_code = self.cleaned_data.get('code', '')
+        if not send_code or send_code != session_code:
+            raise forms.ValidationError('验证码错误')
+
+        return self.cleaned_data
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code', '').strip()
+        if code == '':
+            raise forms.ValidationError('验证码不能为空')
+
+        return code

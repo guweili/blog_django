@@ -4,6 +4,8 @@
 # @Time      :2020/7/24 15:23
 # @Author    :wlgu
 import datetime
+import random
+import string
 
 from django.core.cache import cache
 from django.core.paginator import Paginator
@@ -105,3 +107,9 @@ def cache_data(key, start, end=None):
         cache.set(key, content, CACHES_EXPIRATION_TIM)
 
     return content
+
+
+def random_code():
+    en = string.ascii_letters
+    num = string.digits
+    return ''.join(random.sample(en + num, 4))

@@ -176,3 +176,11 @@ CACHES = {
     }
 }
 CACHES_EXPIRATION_TIM = 60 * 60 * 24
+
+'''########    默认头像    ########'''
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = config('EMAIL_USERNAME')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+EMAIL_SUBJECT_PREFIX = '[gwl博客网站注册]'
+EMAIL_USE_TLS = True

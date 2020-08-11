@@ -21,23 +21,15 @@
                             </div>
                         </li>
 
-                        <li>用户账号: {{ user.username }}</li>
+                        <li>账号: {{ user.username }}</li>
 
-                        <li>昵称：{{ user.nickname }} &nbsp;&nbsp;<a href="">修改昵称</a></li>
-
-                        <li>
-                            性别：
-                            {% if user.sex == 'female' %}
-                                女
-                            {% else %}
-                                男
-                            {% endif %}
-                            &nbsp;&nbsp;
-                            <a href="">修改性别</a>
+                        <li>昵称：{{ user.nickname }} &nbsp;&nbsp;
+                            <a href="{% url 'change_nickname' %}?from={{ request.get_full_path }}">修改昵称</a>
                         </li>
 
-                        <li>邮箱：{% if user.email %}{{ user.email }}{% else %}未绑定邮箱{% endif %} &nbsp;&nbsp;<a
-                                href="">修改邮箱</a>
+                        <li>
+                            邮箱：{% if user.email %}{{ user.email }}{% else %}未绑定邮箱{% endif %} &nbsp;&nbsp;
+                            <a href="{% url 'bind_email' %}?from={{ request.get_full_path }}">修改邮箱</a>
                         </li>
 
                         <li>最近一次登陆时间：{{ user.last_login | date:"Y-m-d H:i:s" }}</li>
