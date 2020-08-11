@@ -22,10 +22,10 @@ def submit_comment(request):
         comment.save()
 
         data['status'] = 'SUCCESS'
-        data['username'] = comment.user.username
+        data['nickname'] = comment.user.nickname
         data['text'] = comment.text
         data['created_time'] = comment.created_time.strftime('%Y-%m-%d %H:%M:%S')
-        data['reply_to'] = comment.reply_to.username if parent else ''
+        data['reply_to'] = comment.reply_to.nickname if parent else ''
 
         data['id'] = comment.id
         data['root_id'] = comment.root.id if comment.root else None

@@ -14,10 +14,10 @@
             <div class="col-xs-10 col-xs-offset-1">
                 {% if user.is_authenticated %}
                     <h2>
-                        {{ user.username }}
+                        用户账号: {{ user.username }}
                     </h2>
                     <ul>
-                        <li>昵称： &nbsp;&nbsp;<a href="">修改昵称</a></li>
+                        <li>昵称：{{ user.nickname }} &nbsp;&nbsp;<a href="">修改昵称</a></li>
 
                         <li>邮箱：{% if user.email %}{{ user.email }}{% else %}未绑定邮箱{% endif %} &nbsp;&nbsp;<a
                                 href="">修改邮箱</a>

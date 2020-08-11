@@ -143,7 +143,7 @@ if DEBUG != True:
     }
 
 '''########    富文本配置    ########'''
-CKEDITOR_UPLOAD_PATH = 'upload/'
+CKEDITOR_UPLOAD_PATH = 'upload'
 CKEDITOR_CONFIG = {
     'default': '',
     'comment_ckeditor': {
@@ -162,6 +162,8 @@ CKEDITOR_CONFIG = {
         'resize_enable': False,
     }
 }
+'''########    默认头像    ########'''
+ICON = 'icon/default.jpg'
 
 '''########    分页参数    ########'''
 EACH_PAGE_BLOGS_NUMBER = 8

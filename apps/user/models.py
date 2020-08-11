@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.html import format_html
+
+from blog_django.settings import ICON
 
 status_choices = (
     (0, "不是"),
@@ -13,7 +16,7 @@ class User(AbstractUser):
         ("female", '女'),
     )
     nickname = models.CharField(max_length=30, default='', verbose_name='昵称')
-    icon = models.ImageField(upload_to='icon', null=True, blank=True, verbose_name='头像')
+    icon = models.ImageField(default=ICON, upload_to='icon', null=True, blank=True, verbose_name='头像')
     phone = models.IntegerField(null=True, blank=True, verbose_name='电话')
     sex = models.CharField(max_length=30, default="female", choices=SEX_CHOICES, verbose_name='性别')
 
@@ -24,6 +27,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.nickname
+
+    def image_tag(self):
+        return format_html(f'<img src="{self.icon.url}" width="75" height="75"/>')
+
+    image_tag.short_description = u'头像'
 
 
 class UserLoginLog(models.Model):

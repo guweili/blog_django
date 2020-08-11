@@ -37,6 +37,13 @@ class RegisterFrom(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入用户名3-15位'})
     )
 
+    nickname = forms.CharField(
+        label='昵称',
+        min_length=3,
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入昵称3-15位'})
+    )
+
     email = forms.EmailField(
         label='邮箱',
         required=True,
@@ -77,3 +84,7 @@ class RegisterFrom(forms.Form):
             raise forms.ValidationError('两次密码不一致')
 
         return password_again
+
+
+class UpdateUserInfo(forms.Form):
+    pass

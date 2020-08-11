@@ -35,10 +35,11 @@ def register(request):
 
         if reg_from.is_valid():
             username = reg_from.cleaned_data['username']
+            nickname = reg_from.cleaned_data['nickname']
             email = reg_from.cleaned_data['email']
             password = reg_from.cleaned_data['password']
             # 创建用户
-            user = User.objects.create_user(username=username, password=password, email=email)
+            user = User.objects.create_user(username=username, nickname=nickname, password=password, email=email)
             user.save()
             # 后台记录用户登陆状态
             user = authenticate(username=username, password=password)

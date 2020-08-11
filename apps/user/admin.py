@@ -10,7 +10,8 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ('username', 'nickname', 'icon', 'phone', 'email', 'sex', 'last_login', 'is_staff', 'is_superuser')
+    list_display = (
+        'username', 'nickname', 'image_tag', 'phone', 'email', 'sex', 'last_login', 'is_staff', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('nickname', 'icon', 'email', 'phone', 'sex')}),
