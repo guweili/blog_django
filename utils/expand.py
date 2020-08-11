@@ -91,7 +91,7 @@ def get_date_pageview(start, end):
             read_nums__created_time__date=start,
         ).values('title', 'id').annotate(dcount=Count('id')).order_by('-dcount')
 
-    return read_num[:7]
+    return read_num[:5]
 
 
 def cache_data(key, start, end=None):
