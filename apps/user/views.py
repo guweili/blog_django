@@ -34,7 +34,7 @@ def my_login(request):
 
 def register(request):
     if request.method == 'POST':
-        reg_from = RegisterFrom(request.POST)
+        reg_from = RegisterFrom(request.POST, request=request)
 
         if reg_from.is_valid():
             username = reg_from.cleaned_data['username']
@@ -47,6 +47,7 @@ def register(request):
             # 后台记录用户登陆状态
             user = authenticate(username=username, password=password)
             login(request, user)
+            del request.session['session']  # 防止一个验证码多次使用
 
             return redirect(request.GET.get('from', reverse('home')))  # 跳回到当前博客
     else:
@@ -106,6 +107,7 @@ def bind_email(request):
             user = User.objects.get(username=request.user.username)
             user.email = email
             user.save()
+            del request.session['session']  # 防止一个验证码多次使用
 
             return redirect(redirect_to)
 

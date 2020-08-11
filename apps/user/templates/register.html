@@ -25,8 +25,11 @@
                                 {{ filed }}
                                 <p class="text-danger">{{ filed.errors.as_text }}</p>
                             {% endfor %}
-                            <span class="pull-left text-danger">{{ reg_from.non_field_errors }}</span>
+                            <span id="tip" class="pull-left text-danger">{{ reg_from.non_field_errors }}
+                            </span>
+                            <div class="clearfix"></div>
                             <input type="submit" value="注册" class="btn btn-primary pull-right">
+                            <button id="send_code" class="btn btn-primary">获取验证码</button>
                         </form>
                     </div>
                 </div>
@@ -35,4 +38,61 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block css %}
+    <style>
+        li {
+            list-style: none;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $('#send_code').click(function () {
+            var email = $('#id_email').val();
+
+            if (email == '') {
+                $('#tip').text('* 邮箱不能为空');
+                return false;
+            }
+
+            $.ajax({
+                url: '{% url 'send_code' %}',
+                type: 'GET',
+                data: {
+                    'email': email,
+                },
+                cache: false,
+                success: function (data) {
+                    if (data['status'] == 'ERROR') {
+                        alert(data['status']);
+                    }
+                }
+            })
+
+            var time = 60;
+            $(this).addClass('disabled');
+            $(this).attr('disabled', true);
+            $(this).text(time + 's');
+
+            var interval = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(interval);
+                    $(this).addClass('disabled');
+                    $(this).attr('disabled', false);
+                    $(this).text('发送验证码');
+
+                    return false;
+                }
+                time--;
+                $(this).text(time + 's 后再次发送');
+
+            }, 1000)
+
+
+        })
+
+    </script>
 {% endblock %}

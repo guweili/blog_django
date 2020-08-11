@@ -50,6 +50,11 @@ class RegisterFrom(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入邮箱'})
     )
 
+    code = forms.CharField(
+        label='验证码',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入验证码'})
+    )
+
     password = forms.CharField(
         label='密码',
         min_length=6,
@@ -64,18 +69,25 @@ class RegisterFrom(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '请再次输入密码'})
     )
 
+    def __init__(self, *args, **kwargs):
+        if 'request' in kwargs:
+            self.request = kwargs.pop('request', None)
+        super(RegisterFrom, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        session_code = self.request.session.get('email_code', '')
+        send_code = self.cleaned_data.get('code', '')
+        if not send_code or send_code != session_code:
+            raise forms.ValidationError('* 验证码错误')
+
+        return self.cleaned_data
+
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError('用户名已存在')
 
         return username
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('邮箱已存在')
-        return email
 
     def clean_password_again(self):
         password_again = self.cleaned_data['password_again']
@@ -141,7 +153,7 @@ class BindEmailForm(forms.Form):
         session_code = self.request.session.get('email_code', '')
         send_code = self.cleaned_data.get('code', '')
         if not send_code or send_code != session_code:
-            raise forms.ValidationError('验证码错误')
+            raise forms.ValidationError('* 验证码错误')
 
         return self.cleaned_data
 
