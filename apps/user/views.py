@@ -48,7 +48,7 @@ def register(request):
             # 后台记录用户登陆状态
             user = authenticate(username=username, password=password)
             login(request, user)
-            del request.session['session']  # 防止一个验证码多次使用
+            del request.session['email_code']  # 防止一个验证码多次使用
 
             return redirect(request.GET.get('from', reverse('home')))  # 跳回到当前博客
     else:
