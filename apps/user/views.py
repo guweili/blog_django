@@ -5,7 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from user.forms import LoginFrom, RegisterFrom, ChangeNicknameForm, BindEmailForm
+from user.forms import LoginFrom, RegisterFrom, ChangeNicknameForm, BindEmailForm, ForgotPasswordForm, \
+    ChangePasswordForm
 from utils.expand import random_code
 
 User = get_user_model()
@@ -107,7 +108,7 @@ def bind_email(request):
             user = User.objects.get(username=request.user.username)
             user.email = email
             user.save()
-            del request.session['session']  # 防止一个验证码多次使用
+            del request.session['email_code']  # 防止一个验证码多次使用
 
             return redirect(redirect_to)
 
@@ -123,6 +124,59 @@ def bind_email(request):
     }
 
     return render(request, 'bind_email.html', context=context)
+
+
+def forgot_password(request):
+    redirect_to = reverse('login')
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST, request=request)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+            del request.session['email_code']  # 防止一个验证码多次使用
+
+            return redirect(redirect_to)
+
+    else:
+        form = ForgotPasswordForm()
+
+    context = {
+        'page_title': '找回密码',
+        'form_title': '找回密码',
+        'submit_text': '提交',
+        'form': form,
+        'return_back_url': redirect_to,
+    }
+
+    return render(request, 'bind_email.html', context=context)
+
+
+def change_password(request):
+    redirect_to = request.GET.get('from', reverse('home'))
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST, user=request.user)
+        if form.is_valid():
+            password = form.cleaned_data['password']
+            user = User.objects.get(username=request.user.username)
+            user.set_password(password)
+            user.save()
+
+            return redirect(redirect_to)
+    else:
+        form = ChangePasswordForm()
+
+    context = {
+        'page_title': '修改密码',
+        'form_title': '修改密码',
+        'submit_text': '修改',
+        'form': form,
+        'return_back_url': redirect_to,
+    }
+
+    return render(request, 'form.html', context=context)
 
 
 def send_code(request):

@@ -34,7 +34,7 @@
 
                         <li>最近一次登陆时间：{{ user.last_login | date:"Y-m-d H:i:s" }}</li>
                     </ul>
-                    <a href="">修改密码</a>
+                    <a href="{% url 'change_password' %}?from={{ request.get_full_path }}">修改密码</a>
                 {% else %}
                     <span>未登录，正在跳转首页</span>
                     <script type="text/javascript">
@@ -50,7 +50,6 @@
     <style>
         li {
             list-style: none;
-            font-size: 20px;
         }
     </style>
 {% endblock %}

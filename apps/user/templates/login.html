@@ -25,10 +25,9 @@
                                 {{ filed }}
                                 <p class="text-danger">{{ filed.errors.as_text }}</p>
                             {% endfor %}
-                            <span class="pull-left text-danger">{{ login_from.non_field_errors }}</span>
+                            <span class="text-danger">{{ login_from.non_field_errors }}</span>
+                            <a class="pull-left" href="{% url 'forgot_password' %}">忘记密码</a>
                             <input type="submit" value="登陆" class="btn btn-primary pull-right">
-                            <button class="btn btn-primary" onclick="window.location.href={{ return_back_url }}">忘记密码
-                            </button>
                         </form>
                     </div>
                 </div>
