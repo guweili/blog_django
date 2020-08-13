@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load static %}
 {% load comment_tags %}  {# 引用模板标签 #}
 {% load read_tags %}  {# 引用模板标签 #}
 
@@ -189,12 +189,13 @@
                         // 插入数据
                         if ($('#reply_comment_id').val() == 0) {
                             //插入评论
-                            var comment_html = '<div id="root_' + data['id'] + '" class="comment">' + '<span>' + data['nickname'] + '</span>' + '<span>(' + data['created_time'] + ') ：</span>' + '<div id="comment_' + data['id'] + '">' + data['text'] + '</div>' + '<a href="javascript:reply(' + data['id'] + ')">回复</a>';
+                            var comment_html = '<div id="root_' + data['id'] + '" class="comment">' + '<span>' + data['nickname'] + '</span>' + '<span> (' + data['created_time'] + ') ：</span>' + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div>' + '<a href="javascript:reply(' + data['id'] + ')">回复</a>';
 
                             $("#comment_list").prepend(comment_html);
                         } else {
                             //插入回复
-                            var reply_html = '<div class="reply"><span>' + data['nickname'] + '</span><span>(' + data['created_time'] + ') ~ 回复</span><span>' + data['reply_to'] + '<div id="comment_' + data['id'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['id'] + ')">回复</a></div>';
+                            var reply_html = '<div class="reply"><span>' + data['nickname'] + '</span><span> (' + data['created_time'] + ') ~ 回复</span><span> ' + data['reply_to'] + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['id'] + ')">回复</a></div>';
+
                             $("#root_" + data['root_id']).append(reply_html);
                         }
 
@@ -220,7 +221,7 @@
             $('#reply_comment_id').val(reply_comment_id);
             var html = $('#comment_' + reply_comment_id).html();
             $('#reply_content').html(html);
-            $('#reply_title').text('回复 @' + nickname + ':');
+            $('#reply_title').text('回复 @' + nickname + ' :');
             $('#reply_content_container').show();
 
 
