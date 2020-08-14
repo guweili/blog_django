@@ -89,7 +89,8 @@
                         {% get_comment_list blog as comments %}
                         {% for comment in comments %}
                             <div id="root_{{ comment.id }}" class="comment">
-                                <img class="navbar-header navbar-avatar comment-icon" src="{{ comment.user.icon.url }}">
+                                <img class="navbar-header navbar-avatar comment-icon img-circle"
+                                     src="{{ comment.user.icon.url }}">
                                 <span>{{ comment.user.nickname }}</span>
                                 <span>({{ comment.created_time|date:"Y-m-d H:i:s" }}) ：</span>
                                 <div id="comment_{{ comment.id }}">
@@ -99,7 +100,7 @@
                                    href="javascript:reply('{{ comment.id }}', '{{ comment.user.nickname }}')">回复</a>
                                 {% for reply in comment.root_comment.all %}
                                     <div class="reply">
-                                        <img class="navbar-header navbar-avatar comment-icon"
+                                        <img class="navbar-header navbar-avatar comment-icon img-circle"
                                              src="{{ reply.user.icon.url }}">
                                         <span>{{ reply.user.nickname }}</span>
                                         <span>({{ reply.created_time|date:"Y-m-d H:i:s" }}) ~ 回复</span>
@@ -207,12 +208,12 @@
                         // 插入数据
                         if ($('#reply_comment_id').val() == 0) {
                             //插入评论
-                            var comment_html = '<div id="root_' + data['id'] + '" class="comment">' + '<img class="navbar-header navbar-avatar comment-icon" src="' + data['icon'] + '">' + '<span>' + data['nickname'] + '</span>' + '<span> (' + data['created_time'] + ') ：</span>' + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div>' + '<a class="comment-a" href="javascript:reply(' + data['id'] + ')">回复</a>';
+                            var comment_html = '<div id="root_' + data['id'] + '" class="comment">' + '<img class="navbar-header navbar-avatar comment-icon img-circle" src="' + data['icon'] + '">' + '<span>' + data['nickname'] + '</span>' + '<span> (' + data['created_time'] + ') ：</span>' + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div>' + '<a class="comment-a" href="javascript:reply(' + data['id'] + ')">回复</a>';
 
                             $("#comment_list").prepend(comment_html);
                         } else {
                             //插入回复
-                            var reply_html = '<div class="reply">' + '<img class="navbar-header navbar-avatar comment-icon" src="' + data['icon'] + '">' + '<span>' + data['nickname'] + '</span><span> (' + data['created_time'] + ') ~ 回复</span><span> ' + data['reply_to'] + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div><a class="comment-a" href="javascript:reply(' + data['id'] + ')">回复</a></div>';
+                            var reply_html = '<div class="reply">' + '<img class="navbar-header navbar-avatar comment-icon img-circle" src="' + data['icon'] + '">' + '<span>' + data['nickname'] + '</span><span> (' + data['created_time'] + ') ~ 回复</span><span> ' + data['reply_to'] + ' :<div id="comment_' + data['id'] + '">' + data['text'] + '</div><a class="comment-a" href="javascript:reply(' + data['id'] + ')">回复</a></div>';
 
                             $("#root_" + data['root_id']).append(reply_html);
                         }

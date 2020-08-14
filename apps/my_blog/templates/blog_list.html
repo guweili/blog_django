@@ -41,7 +41,7 @@
                                         {% get_read_count blog %}
                                     </span>
                                 </p>
-                                <p>{{ blog.content | truncatechars:100 }}</p>
+                                <p>{{ blog.content | safe | truncatechars:50 }}</p>
 
                             </div>
 
