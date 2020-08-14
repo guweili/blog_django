@@ -24,6 +24,7 @@ def submit_comment(request):
         data['status'] = 'SUCCESS'
         data['nickname'] = comment.user.nickname
         data['text'] = comment.text
+        data['icon'] = comment.user.icon.url
         data['created_time'] = comment.created_time.strftime('%Y-%m-%d %H:%M:%S')
         data['reply_to'] = comment.reply_to.nickname if parent else ''
 

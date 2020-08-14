@@ -39,6 +39,7 @@
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
+                            <img id="base-image" class="navbar-header navbar-avatar" src="{{ user.icon.url }}">
                             <span>{{ user.nickname }}</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -86,6 +87,13 @@
 <style>
     ul.navbar-right {
         margin-right: 0;
+    }
+
+    #base-image {
+        width: 40px;
+        height: 40px;
+        margin-top: -0.6em;
+        margin-right: 0.5em;
     }
 </style>
 
