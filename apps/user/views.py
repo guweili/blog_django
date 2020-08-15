@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from user.forms import LoginFrom, RegisterFrom, ChangeNicknameForm, BindEmailForm, ForgotPasswordForm, \
-    ChangePasswordForm
+    ChangePasswordForm, IconForm
 from utils.expand import random_code
 
 User = get_user_model()
@@ -157,7 +157,7 @@ def forgot_password(request):
 def change_password(request):
     redirect_to = request.GET.get('from', reverse('home'))
     if request.method == 'POST':
-        form = ChangePasswordForm(request.POST, user=request.user)
+        form = ChangePasswordForm(request.POST, user=request.user, file=request.FILES)
         if form.is_valid():
             password = form.cleaned_data['password']
             user = User.objects.get(username=request.user.username)
@@ -179,8 +179,33 @@ def change_password(request):
     return render(request, 'form.html', context=context)
 
 
+def update_icon(request):
+    redirect_to = request.GET.get('from', reverse('home'))
+    if request.method == 'POST':
+        form = IconForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            icon = request.FILES.get('icon')
+            user = User.objects.get(username=request.user.username)
+            user.icon = icon
+            user.save()
+
+            return redirect(redirect_to)
+    else:
+        form = IconForm()
+
+    context = {
+        'page_title': '修改头像',
+        'form_title': '修改头像',
+        'submit_text': '修改',
+        'form': form,
+        'return_back_url': redirect_to,
+    }
+
+    return render(request, 'form.html', context=context)
+
+
 def send_code(request):
-    email = request.GET.get('email', reverse('home'))
+    email = request.GET.get('email', '')
     if email != '':
         code = random_code()
         request.session['email_code'] = code

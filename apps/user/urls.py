@@ -12,4 +12,5 @@ urlpatterns = [
     re_path(r'^bind_email/$', bind_email, name='bind_email'),
     re_path(r'^send_code/$', send_code, name='send_code'),
     re_path(r'^forgot_password/$', forgot_password, name='forgot_password'),
+    re_path(r'^update_icon/$', update_icon, name='update_icon'),
 ]

@@ -265,3 +265,23 @@ class ChangePasswordForm(forms.Form):
             raise forms.ValidationError('两次密码不一致')
 
         return password_again
+
+
+class IconForm(forms.Form):
+    icon = forms.ImageField(
+        label='请选择头像',
+    )
+
+    def __init__(self, *args, **kwargs):
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user', None)
+
+        super(IconForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if self.user.is_authenticated:
+            self.cleaned_data['user'] = self.user
+        else:
+            raise forms.ValidationError('用户尚未登陆')
+
+        return self.cleaned_data

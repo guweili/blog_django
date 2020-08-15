@@ -17,20 +17,19 @@
                         <div class="panel-heading">个人信息</div>
                         <div class="panel-body">
                             {% if user.is_authenticated %}
-
                                 <ul class="user-info">
-
                                     <div>
                                         <span>头像：</span>
                                         <img id="user-info-image" src="{{ user.icon.url }}">
-                                        <span><a href="">修改头像</a></span>
+                                        &nbsp;&nbsp;
+                                        <span><a
+                                                href="{% url 'update_icon' %}?from={{ request.get_full_path }}">修改头像</a></span>
                                     </div>
 
                                     <li>账号：{{ user.username }}</li>
 
                                     <li>昵称：{{ user.nickname }} &nbsp;&nbsp;
-                                        <a href="{% url 'change_nickname' %}?from={{ request.get_full_path }}"
-                                           style="">修改昵称</a>
+                                        <a href="{% url 'change_nickname' %}?from={{ request.get_full_path }}">修改昵称</a>
                                     </li>
 
                                     <li>
