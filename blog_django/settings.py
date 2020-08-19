@@ -177,7 +177,7 @@ CACHES = {
 }
 CACHES_EXPIRATION_TIM = 60 * 60 * 24
 
-'''########    默认头像    ########'''
+'''########    邮件配置    ########'''
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = config('EMAIL_USERNAME')
