@@ -246,8 +246,6 @@ class ChangePasswordForm(forms.Form):
         if 'user' in kwargs:
             self.user = kwargs.pop('user', None)
 
-        if 'request' in kwargs:
-            self.request = kwargs.pop('request', None)
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
 
     def clean(self):

@@ -157,7 +157,7 @@ def forgot_password(request):
 def change_password(request):
     redirect_to = request.GET.get('from', reverse('home'))
     if request.method == 'POST':
-        form = ChangePasswordForm(request.POST, user=request.user, file=request.FILES)
+        form = ChangePasswordForm(request.POST, user=request.user)
         if form.is_valid():
             password = form.cleaned_data['password']
             user = User.objects.get(username=request.user.username)
